@@ -15,6 +15,47 @@ import customer.vo.Notice;
 
 public class NoticeDao {
 	
+	public Notice getNotice(String seq,String hit) throws Exception {
+//		detail
+//		update notices set hit=hit+1 where seq='1'
+		int hnum=Integer.parseInt(hit);
+		hitupdate(seq,hnum);
+		
+		String sql="select seq,title,writer,content,"
+				+ "regdate,hit,filesrc from notices where seq="+seq;
+		//dbcon
+		Connection con=DBCon.getConnection();
+		//실행
+		Statement stmt=con.createStatement();
+		ResultSet rs=stmt.executeQuery(sql);
+		rs.next();
+		
+		Notice n=new Notice();
+		n.setSeq(rs.getString("seq"));
+		n.setWriter(rs.getString("writer"));
+		n.setTitle(rs.getString("title"));
+		n.setContent(rs.getString("content"));
+		n.setRegdate(rs.getDate("regdate"));
+		n.setHit(rs.getInt("hit"));
+		n.setFilesrc(rs.getString("filesrc"));
+		
+		
+		rs.close();
+		stmt.close();
+		con.close();
+		return n;	
+	}
+	
+	public void hitupdate(String seq,int hnum) throws Exception {
+		System.out.println("hit upppppp");
+		//dbcon
+		Connection con=DBCon.getConnection();
+		String sql="update notices set hit=? where seq=?";
+		PreparedStatement pstmt=con.prepareStatement(sql);
+		pstmt.setInt(1, hnum+1);
+		pstmt.setString(2, seq);
+		pstmt.executeUpdate();
+	}
 	
 	public List<Notice> noticeSelAll(String field,String query) throws Exception {
 //		String sql="select seq,title,writer,content,"
