@@ -86,6 +86,16 @@ public class NoticeDao {
 		}
 		return list;
 	}
+	public int delete(String seq) throws Exception {
+		String sql="delete from notices where seq="+seq;
+		//dbcon
+		Connection con=DBCon.getConnection();
+		//실행
+		PreparedStatement pstmt=con.prepareStatement(sql);
+		int del=pstmt.executeUpdate();
+		
+		return del;	
+	}
 	
 
 }
