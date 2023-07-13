@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import customer.controller.member.LoginController;
 import customer.controller.notice.NoticeController;
 import customer.controller.notice.NoticeDetailController;
 
@@ -30,6 +31,8 @@ public class MyDispatcher extends HttpServlet{
 				controller=new NoticeController();
 			}else if(com.equals("/customer/noticeDetail.do")) {
 				controller=new NoticeDetailController();
+			}else if(com.equals("/login/login.do")) {
+				controller=new LoginController();
 			}
 			controller.execute(request, response);
 		} catch (Exception e) {
