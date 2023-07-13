@@ -96,6 +96,29 @@ public class NoticeDao {
 		
 		return del;	
 	}
-	
+	public Notice getNotice(String seq) throws Exception {
+//		edit
+		String sql="select seq,title,writer,content,"
+				+ "regdate,hit from notices where seq="+seq;
+		//dbcon
+		Connection con=DBCon.getConnection();
+		//실행
+		Statement stmt=con.createStatement();
+		ResultSet rs=stmt.executeQuery(sql);
+		rs.next();
+		
+		Notice n=new Notice();
+		n.setSeq(rs.getString("seq"));
+		n.setWriter(rs.getString("writer"));
+		n.setTitle(rs.getString("title"));
+		n.setContent(rs.getString("content"));
+		n.setRegdate(rs.getDate("regdate"));
+		n.setHit(rs.getInt("hit"));
+		
+		rs.close();
+		stmt.close();
+		con.close();
+		return n;	
+	}
 
 }
